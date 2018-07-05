@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Web服务器环境安装"
-date:   2017-09-28
+date:   2017-11-28
 categories: 服务器
 tags: centos
 ---

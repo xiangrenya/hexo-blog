@@ -37,6 +37,21 @@ nvm install 6.13.1
 nvm use 6.13.1
 ```
 
+## 修改记录
+
+位置: themes/next/source/css/_custom/custom.styl
+
+``` css
+// Custom styles.
+@media (max-width: 767px) {
+  .posts-expand {
+    margin: 0 20px;
+  }
+  .post-block {
+    padding: 40px 20px;
+  }
+}
+```
 ## 参考文档
 
 - [hexo](https://github.com/hexojs/hexo)

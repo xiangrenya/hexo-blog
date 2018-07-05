@@ -1,79 +1,53 @@
 ---
 layout: post
-title:  "MySQL使用教程"
-date:   2017-10-12
+title:  "MySQL使用笔记"
+date:   2017-10-10
 categories: 后端
 tags: mysql
 comments: true
 ---
 
-## 第 1 章 用命令行连接MySQL
+## 用命令行连接MySQL
 
-步骤1：修改.bash_profile
+首先配置一下PATH，可以在全局使用mysql命令
 
-``` bash
+``` sh
+# 编辑bash配置
 vim .bash_profile
-```
-
-插入下面的代码
-
-```
+# 插入下面的代码
 export PATH=${PATH}:/usr/local/mysql/bin
 ```
 
-步骤2：修改.zshrc文件，因为我用的是zsh
-
+因为我用的是zsh，也要修改一下.zshrc配置
 ``` bash
 vim .zshrc
-```
-
-插入下面的代码
-
-```
 source ~/.bash_profile
 ```
 
-步骤3：通过命名行登录数据库，然后就可以进入mysql环境
-
+通过命令行连接mysql数据库
 ``` bash
 mysql -u username -p dbname
-password: ***
+password: Abc123
 ```
 
-参考资料：
+## 让MySQL支持Emoji表情
 
-- Mac下安装MySQL后, Shell不能识别mysql命令： http://blog.csdn.net/zhaoweizheng66/article/details/62215292
+我们的数据库里面一般都是使用utf8编码，普通的字符串或者表情都是占位3个字节，所以utf8足够用了，但是移动端的表情符号占位是4个字节，普通的utf8就不够用了。为了应对无线互联网的机遇和挑战、避免 emoji 表情符号带来的问题、涉及无线相关的 MySQL 数据库建议都提前采用utf8mb4 字符集，这必须要作为移动互联网行业的一个技术选型的要点。所以推荐在数据库中使用utf8mb4编码。
 
+检查默认安装的MySQL的字符集，登陆MySQL后，输入下面的命令：
 
-
-
-## 第 2 章 让MySQL支持Emoji表情
-
-> 我们的数据库里面一般都是使用utf8编码，普通的字符串或者表情都是占位3个字节，所以utf8足够用了，但是移动端的表情符号占位是4个字节，普通的utf8就不够用了。为了应对无线互联网的机遇和挑战、避免 emoji 表情符号带来的问题、涉及无线相关的 MySQL 数据库建议都提前采用utf8mb4 字符集，这必须要作为移动互联网行业的一个技术选型的要点。所以推荐在数据库中使用utf8mb4编码。
-
-步骤1：检查默认安装的mysql的字符集，登陆mysql后，输入下面的命令：
-
-``` bash
+``` sh
 mysql> SHOW VARIABLES WHERE Variable_name LIKE 'character\_set\_%' OR Variable_name LIKE 'collation%';
 ```
 
-步骤2：停止MySQL服务，在系统偏好设置里面打开MySQL，点击 Stop MySQL Server。
+停止MySQL服务，在系统偏好设置里面打开MySQL，点击 Stop MySQL Server。
 
-步骤3：在Mac OS X 中默认是没有my.cnf 文件，如果需要对MySql 进行定制，拷贝/usr/local/mysql/support-files/my-default.cnf粘贴到/etc目录下，并且重命名为my.cnf，然后修改 my.cnf 即可进行定制了。
-
-``` bash
+``` sh
+# 拷贝一份mysql配置文件
 sudo cp /usr/local/mysql/support-files/my-default.cnf /etc/my.cnf  
-```
-
-步骤4：编辑my.cnf
-
-``` bash
-sudo vim /etc/my.cnf
-```
-
-插入下面的代码：
-
-```
+# 编辑
+vi /etc/my.cnf
+# 插入如下代码
 [client]
 default-character-set=utf8mb4
 [mysql]
@@ -85,18 +59,12 @@ collation-server = utf8mb4_unicode_ci
 init_connect='SET NAMES utf8mb4'
 ```
 
-步骤5：重新启动MySQL服务。系统偏好设置里面打开MySQL，点击 Start MySQL Server。
+重新启动MySQL服务。系统偏好设置里面，打开MySQL，点击 Start MySQL Server。
 
-
-步骤6：查看修改后的mysql字符集
-
-``` bash
+现在可以查看修改后的mysql字符集，可以向数据库里插入Emoji表情。
+``` sh
 mysql> SHOW VARIABLES WHERE Variable_name LIKE 'character\_set\_%' OR Variable_name LIKE 'collation%';
-```
-
-设置完成后，应该可以看到如下类似字符集设置结果。那么可以直接的存入数据库，无需做任何额外的事情了。
-
-```
+# 打印结果如下：
 +--------------------------+--------------------+
 | Variable_name            | Value              |
 +--------------------------+--------------------+
@@ -115,7 +83,7 @@ mysql> SHOW VARIABLES WHERE Variable_name LIKE 'character\_set\_%' OR Variable_n
 ```
 
 参考资料：
-
+- Mac下安装MySQL后, Shell不能识别mysql命令： http://blog.csdn.net/zhaoweizheng66/article/details/62215292
 - mysql插入数据出错的解决方法： http://blog.csdn.net/fhzaitian/article/details/53168551
 - macOSX下，如何永久更改Mysql的字符编码格式：http://blog.csdn.net/m13026178198/article/details/49993263
 - Server Configuration Defaults：https://dev.mysql.com/doc/refman/5.7/en/server-configuration-defaults.html

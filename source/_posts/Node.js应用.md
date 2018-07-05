@@ -1,23 +1,16 @@
 ---
 layout: post
-title:  "Node.js应用"
+title:  "Node.js入门"
 date:   2017-09-28
 categories: 后端
 tags: node
-comments: true
 ---
 
-## 第 1 章 Node简介
-
-### 1.1 Node.js是什么
+## Node.js简介
 
 [官网上](http://www.nodejs.org)给Node下的定义是:“ 一个搭建在Chrome JavaScript运行时 上的平台，用于构建高速、可伸缩的网络程序。Node.js采用的事件驱动、非阻塞I/O模型，使它既轻量又高效，并成为构建运行在分布式设备上的DIRT数据密集型实时程序的完美选择。”
 
-#### 2、安装配置
-
-
-
-### 一、环境安装
+## 安装配置
 
 - [Node](http://nodejs.cn)
 - [MySQL](https://www.mysql.com)
@@ -29,7 +22,7 @@ comments: true
 - [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=zh-CN)
 - [Source Code Pro](https://github.com/adobe-fonts/source-code-pro)
 
-### 二、技术选型
+## 技术选型
 
 - UI
     - [bootstrap](http://www.bootcss.com)
@@ -60,38 +53,24 @@ comments: true
     - [supervisor](https://github.com/petruisfan/node-supervisor)
     - [pm2](https://github.com/Unitech/PM2)
 
-### 三、快速启动项目
+## 快速启动项目
 
-步骤1：安装package.json里的项目依赖文件
-
-``` bash
+``` sh
+# 安装package.json里的项目依赖包
 cnpm install
-```
-
-步骤2：启动redis服务
-
-```
+# 启动redis服务
 redis-server
 ```
 
-步骤3：启动mysql服务
+在Mac电脑中，打开系统偏好设置，找到MySQL，启动服务。
 
-打开系统偏好设置中MySQL，启动服务
-
-步骤4：启动应用
-
-``` bash
-node app
+``` sh
+# 开发环境启动
+nodemon app
+# 产线部署
+pm2 start app
 ```
 
-步骤5：产线部署
-
-``` bash
-pm2 start app.js
-```
-
-### 四、参考资料
-
-#### 1、书籍
+## 参考资料
 
 - 《深入浅出Node.js》朴灵
