@@ -4,6 +4,7 @@ title:  "Web服务器环境安装"
 date:   2017-11-28
 categories: 服务器
 tags: centos
+comments: true
 ---
 
 国内大多数企业Web服务器都是Centos系统，包括云服务器也是如此。可见其系统的安全性、稳定性是经过市场检验的。我们可以通过在windows或mac os系统下安装虚拟机，再去官网下载iso镜像文件，安装至虚拟机里，当然也可以买个低配的云服务器，做一些有趣的实验。

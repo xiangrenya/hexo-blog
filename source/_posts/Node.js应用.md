@@ -4,6 +4,7 @@ title:  "Node.js入门"
 date:   2017-09-28
 categories: 后端
 tags: node
+comments: true
 ---
 
 ## Node.js简介

@@ -4,6 +4,7 @@ title:  "Session会话管理"
 date:   2017-07-28
 categories: 后端
 tags: session
+comments: true
 ---
 
 ## 基于session的会话管理过程
