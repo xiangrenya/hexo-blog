@@ -11,10 +11,10 @@ body {
   line-height: $line-height-base;
   color: $text-color;
   background: $body-bg-color;
-
+  letter-spacing: 0.8px;
   +mobile() { padding-right: 0 !important; }
   +tablet() { padding-right: 0 !important; }
-  +desktop-large() { font-size: $font-size-large; }
+  +desktop-large() { font-size: $font-size-base; }
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -39,7 +39,11 @@ for headline in (1..6) {
   }
 }
 
-p { margin: 0 0 20px 0; }
+p {
+  margin: 0 0 10px 0; 
+  line-height: 1.8
+
+}
 
 a {
   color: $link-color;
@@ -108,4 +112,8 @@ kbd {
   background-image: -webkit-linear-gradient(top, #eee, white, #eee);
   padding: 0.1em 0.3em;
   white-space: nowrap;
+}
+
+.highlight {
+  letter-spacing: 0.5px;
 }
