@@ -1,21 +1,21 @@
 ---
 layout: post
-title:  "基于JWT的Token认证机制"
+title:  "Token 认证机制"
 date:   2017-12-25
 categories: 后端
 tags: token
 comments: true
 ---
 
-现在大多数公司都是前后端完全分离，一个后端Api服务，对应多个前端（iOS, Andriod, H5, Web)，在这种情况下，是无法使用Cookie+Session进行会话管理的，可以Token进行用户认证鉴权，因为Token是无状态的。
+现在大多数公司都是前后端完全分离，一个后端提供 reset api 服务，对应多个终端，如 ios, android, h5, web，在这种情况下，是无法使用 cookie + session 进行会话管理的，可以 token 进行用户认证鉴权，因为 token 是无状态的。
 
 ## JWT的定义
 
-JSON Web Token（JWT）是一个开放标准（RFC 7519），它定义了一种紧凑且独立的方式，可以在各方之间作为JSON对象安全地传输信息。此信息可以通过数字签名进行验证和信任。JWT可以使用密钥（使用HMAC算法）或使用RSA或ECDSA的公钥/私钥对进行签名。
+JSON Web Token（JWT）是一个开放标准（RFC 7519），它定义了一种紧凑且独立的方式，可以在各方之间作为JSON对象安全地传输信息。此信息可以通过数字签名进行验证和信任。JWT可以使用密钥（使用 HMAC 算法）或使用 RSA 或 ECDSA 的公钥/私钥对进行签名。
 
 ## 基于Token认证的优势
 
-基于Token的身份验证是无状态的，我们不将用户信息存在服务器或缓存中，减轻了服务器的压力；相比原始的 Cookie+Session 方式，Token更适合分布式系统的用户认证，绕开了传统的分布式Session一致性等问题；安全性高，不依赖Cookie，避免了CSRF攻击。
+基于 token 的身份验证是无状态的，我们不将用户信息存在服务器或缓存中，减轻了服务器的压力；相比原始的 cookie + session 方式，token 更适合分布式系统的用户认证，绕开了传统的分布式 session一致性等问题；安全性高，不依赖 cookie，避免了 CSRF 攻击。
 
 ## JWT的组成部分
 
@@ -40,7 +40,7 @@ Header有两个部分组成，包括token类型和hash算法
 
 ### 载荷 Payload
 
-Payload由JWT的标准所定义的五个字段，如下：
+Payload 由 JWT 的标准所定义的五个字段，如下：
 
 - iss: 该JWT的签发者
 - sub: 该JWT所面向的用户
@@ -48,7 +48,7 @@ Payload由JWT的标准所定义的五个字段，如下：
 - exp(expires): 什么时候过期，这里是一个Unix时间戳
 - iat(issued at): 在什么时候签发的
 
-我们可以在这里添加B/S之间要传递的信息（如userId），切记不要写例如密码这样的敏感信息。然后对Payload进行Base64Url编码，作为JWT的第二个部分。
+我们可以在这里添加 B/S 之间要传递的信息，如 userId，切记不要写例如密码这样的敏感信息。然后对 Payload 进行 Base64Url 编码，作为 JWT 的第二个部分。
 
 ### 签名 Signature
 
@@ -61,7 +61,7 @@ HMACSHA256(
   secret)
 ```
 
-通过签名可以验证JWT的有效性，如果被篡改过，就会返回401未授权的错误提示。
+通过签名可以验证 JWT 的有效性，如果被篡改过，就会返回401未授权的错误提示。
 
 ## JWT认证的实现过程
 
@@ -73,25 +73,30 @@ JWT可以保存在localStorage中，每次请求在http请求时，在Header中�
 Authorization: token
 ```
 
-## JWT在Node.js环境下的应用
+## JWT 在 Node.js 环境下的应用
 
-首先在项目中安装所需的jsonwebtoken依赖包
-``` sh
+首先在项目中安装所需的 `jsonwebtoken` 依赖包
+
+``` bash
 npm i -S jsonwebtoken
 ```
 
-签名和验证Token语法如下：
+签名和验证 `token` 语法如下：
+
 ``` javascript
 // 签名
 jwt.sign(payload, secret,  [options, callback])
+
 // 验证
 jwt.verify(token, secret, [options, callback])
 ```
 
 示例代码如下：
+
 ``` javascript
 // 签名
 exports.signToken = userId => jwt.sign({ userId }, config.secret, { expiresIn: '2h' });
+
 // 验证
 exports.verifyToken = token => new Promise((resolve, reject) => {
   jwt.verify(token, config.secret, (err, decoded) => {
@@ -101,7 +106,7 @@ exports.verifyToken = token => new Promise((resolve, reject) => {
 });
 ```
 
-通过Token验证中间件，保证每次Api请求，都是带有效Token的合法请求，并将传递的信息（如userId）挂载在req对象中，然后参与到业务的处理当中。
+通过 token 验证中间件，保证每次 api 请求，都是带有效 token 的合法请求，并将传递的信息，如 userId 挂载在 req 对象中，然后参与到业务的处理当中。
 
 ``` javascript
 exports.authToken = function(req, res, next){
@@ -117,7 +122,7 @@ exports.authToken = function(req, res, next){
 
 ## 客户端处理Token的有效性
 
-用户每次发出Api请求，可以通过Axois全局配置响应拦截器，检测到401未授权时，清空本地存储中的Token，重定向至登录页。
+客户端每次发出 http 请求，可以通过 axois 全局配置响应拦截器，检测到401未授权时，清空本地存储中的 token，重定向至登录页。
 
 ``` javascript
 axios.interceptors.response.use(

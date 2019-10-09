@@ -1,11 +1,13 @@
 ---
 layout: post
-title:  "用 Canvas 实现签名"
+title:  "用画布 Canvas 实现签名"
 date:   2019-7-17
 categories: 前端
 tags: canvas
 comments: true
 ---
+
+通过 Canvas Api 和鼠标的事件 mousedown， mouseover, mouseup 来实现一个通过鼠标来签名的方法。主要思路：在触发 mousedown 事件的时候，新增 mousemove 的监听事件，当触发 mouseup 事件的时候，再移除 mousemove 的监听事件。
 
 ## 代码片段
 

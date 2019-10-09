@@ -167,11 +167,11 @@ app.listen(3000, () => {
 let xhr = new XMLHttpRequest();
 let chunked = [];
 xhr.onreadystatechange = function() {
-    if (this.readyState === 3) {
+    if ([3, 4].includes(this.readyState)) {
         if (options.onData) {
             if (this.response) {
                 const chunks = this.response.match(/<chunk>(.*?)<\/chunk>?/g).map(item = >item.replace(/<\/?chunk>/g, ''));
-                const data = _.difference(chunks, chunked);
+                const data = chunks.slice(chunked.length;
                 data.forEach(item = >{
                     try {
                         options.onData(JSON.parse(item));
@@ -255,7 +255,3 @@ onData = data => {};
 2. 分析了 BigPipe 在首屏渲染中的优势
 3. 了解前端如何处理分块返回的数据
 4. 结合现有项目剖析 BigPipe 的应用场景
-
-下面来张现场的照片，感受一下现场的氛围。
-
-![live](/assets/images/bigpipe/live.jpg)

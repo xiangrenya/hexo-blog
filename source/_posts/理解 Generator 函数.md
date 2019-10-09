@@ -1,10 +1,14 @@
 ---
 layout: post
-title:  "深入理解 Generator 函数"
+title:  "理解 Generator 函数"
 date:   2019-08-30
 categories: 前端
 comments: true
 ---
+
+Generator 函数是 ES6 提供的一种异步编程解决方案，Generator 函数是一个状态机，封装了多个内部状态，执行 Generator 函数会返回一个遍历器对象。
+
+下面通过一些例子，来学习一下 Generator 函数的一些知识点和注意事项。
 
 ```javascript
 // 基本用法
